@@ -10,7 +10,7 @@ function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className="flex h-[100vh] flex-grow flex-col">
-        <nav className="flex items-center justify-between bg-blue-500 p-4">
+        <nav className="flex items-center justify-between bg-slate-800 p-4">
           <Link href="/" className="text-lg font-bold text-white">
             Home
           </Link>
