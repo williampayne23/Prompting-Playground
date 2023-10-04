@@ -1,10 +1,7 @@
-export const metadata = {
-  title: "Playground",
-  description: "",
-};
-
+"use client";
 import "~/styles/globals.css";
 import Link from "next/link";
+import { ModalSupplier } from "~/hooks/Modals";
 
 function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -16,8 +13,8 @@ function RootLayout({ children }: { children: React.ReactNode }) {
           </Link>
           <div className="flex space-x-4"></div>
         </nav>
-        <div id="content" className="grow">
-          {children}
+        <div id="content" className="h-full overflow-scroll">
+          <ModalSupplier>{children}</ModalSupplier>
         </div>
       </body>
     </html>

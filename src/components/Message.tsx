@@ -1,6 +1,6 @@
 "use client";
 import type openAI from "openai";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useChatContext } from "~/hooks/useChatContext";
 import { type IRole } from "~/types/util";
 
@@ -24,7 +24,7 @@ export function Message({
 
   return (
     <>
-      <div className="group flex items-center p-2 hover:bg-slate-100">
+      <div className="group flex p-2 hover:bg-slate-100">
         <div className="m-2 w-20">
           <button
             onClick={() => {
@@ -39,14 +39,14 @@ export function Message({
                 role: cycle[message.role],
               });
             }}
-            className="rounded-sm p-2 text-sm font-semibold group-hover:bg-slate-200"
+            className="mt-1 rounded-sm p-2 text-sm font-semibold group-hover:bg-slate-200"
           >
             {message.role.toUpperCase()}
           </button>
         </div>
         <textarea
           ref={textAreaRef}
-          value={message.content}
+          value={message.content ?? ""}
           onChange={(e) =>
             chatContext.replaceMessage(id, {
               ...message,
@@ -61,7 +61,7 @@ export function Message({
         />
         <button
           onClick={() => chatContext.removeMessage(id)}
-          className="z-10 text-lg opacity-0 group-hover:text-slate-400 group-hover:opacity-100"
+          className="mt-4 h-6 text-lg opacity-0 group-hover:text-slate-400 group-hover:opacity-100"
         >
           <span className="hover:text-slate-900">⊖</span>
         </button>
