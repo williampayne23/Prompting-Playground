@@ -19,7 +19,6 @@ type RecursivelyExpand<T> = T extends object
 
 export type IOptions = RecursivelyExpand<
   {
-    apiKey: string;
     model: IChatModel;
   } & Omit<
     Omit<openai.Chat.ChatCompletionCreateParamsStreaming, "messages">,

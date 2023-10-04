@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, createContext, useState } from "react";
+import React, { useContext, createContext, useState, useEffect } from "react";
 import OpenAI from "openai";
 import type { IMessage, IOptions, IRole } from "~/types/util";
 import { useQuestion } from "./Question";
@@ -17,11 +17,20 @@ function useChat() {
     },
   ]);
 
+  const apiKeyDefault = window.localStorage.getItem("api_key") ?? "";
+
+  const [apiKey, setApiKey] = useState(apiKeyDefault);
+
+  useEffect(() => {
+    window.localStorage.setItem("api_key", apiKey);
+  }, [apiKey]);
+
   const [options, editOptions] = useState<IOptions>({
-    apiKey: "",
     model: "gpt-3.5-turbo",
     stream: true,
   });
+
+  const [predicting, setPredicting] = useState(false);
 
   const askQuestion = useQuestion();
 
@@ -60,14 +69,20 @@ function useChat() {
   }
 
   async function generateNewMessageWithSettings() {
-    const apiKey =
-      options.apiKey == ""
-        ? await askQuestion("Provide your api key.")
-        : options.apiKey;
+    if (predicting) {
+      return;
+    }
+    setPredicting(true);
+
+    let correctApiKey = apiKey;
+    if (correctApiKey == "") {
+      correctApiKey = await askQuestion("Provide your api key.");
+      setApiKey(correctApiKey);
+    }
 
     const openai = new OpenAI({
       dangerouslyAllowBrowser: true,
-      apiKey: apiKey,
+      apiKey: correctApiKey,
     });
 
     const message = {
@@ -106,9 +121,13 @@ function useChat() {
       const choiceDelta = chunk.choices[0]?.delta;
       if (choiceDelta) updateLastMessage(choiceDelta);
     }
+
+    setPredicting(false);
   }
 
   return {
+    predicting,
+    options,
     messages,
     appendMessage: appendEmptyMessage,
     removeMessage,
