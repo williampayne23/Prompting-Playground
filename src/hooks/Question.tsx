@@ -6,7 +6,7 @@ import { useDialog } from "./Modals";
 export function useQuestion() {
   const dialog = useDialog();
   function askQuestion(question: string) {
-    return new Promise<string>((res, rej) => {
+    return new Promise<string>((res, _rej) => {
       dialog.setDialog(<QuestionDialog question={question} resolution={res} />);
     }).then((result) => {
       dialog.closeDialog();

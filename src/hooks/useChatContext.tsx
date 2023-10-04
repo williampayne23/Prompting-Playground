@@ -30,6 +30,12 @@ function useChat() {
     stream: true,
   });
 
+  function editOption<T extends keyof IOptions>(key: T, value: IOptions[T]) {
+    editOptions((ops) => {
+      return { ...ops, [key]: value };
+    });
+  }
+
   const [predicting, setPredicting] = useState(false);
 
   const askQuestion = useQuestion();
@@ -128,6 +134,7 @@ function useChat() {
   return {
     predicting,
     options,
+    editOption,
     messages,
     appendMessage: appendEmptyMessage,
     removeMessage,
