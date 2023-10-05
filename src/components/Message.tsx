@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { useChatContext } from "~/hooks/useChatContext";
 import { type IRole } from "~/types/util";
 
-export function Message({
+export default function Message({
   message,
   id,
 }: {

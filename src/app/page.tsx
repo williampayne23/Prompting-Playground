@@ -1,6 +1,8 @@
 "use client";
-import { Message } from "~/components/Message";
-import { ChatProvider, useChatContext } from "~/hooks/useChatContext";
+import ButtonRow from "~/components/ButtonRow";
+import MessageStack from "~/components/MessageStack";
+import Options from "~/components/Options";
+import { ChatProvider } from "~/hooks/useChatContext";
 
 export default function HomePage() {
   return (
@@ -18,43 +20,4 @@ export default function HomePage() {
       </div>
     </ChatProvider>
   );
-}
-
-function ButtonRow() {
-  const chatContext = useChatContext();
-  return (
-    <div className="m-2 p-2">
-      <button
-        disabled={chatContext.predicting}
-        onClick={() => {
-          chatContext.generateNewMessageWithSettings().catch(console.error);
-        }}
-        className="rounded-md bg-teal-600 p-2 px-4 text-white hover:bg-teal-700 disabled:bg-gray-300 disabled:text-black"
-      >
-        Submit
-      </button>
-    </div>
-  );
-}
-
-function MessageStack() {
-  const chatContext = useChatContext();
-
-  return (
-    <div className="flex flex-col overflow-scroll px-2">
-      {chatContext.messages.map((m, i) => (
-        <Message key={i} id={i} message={m} />
-      ))}
-      <button
-        onClick={chatContext.appendMessage}
-        className="py-4 pl-2 text-left text-lg transition duration-100 hover:bg-slate-100"
-      >
-        ⊕ Add Message
-      </button>
-    </div>
-  );
-}
-
-function Options() {
-  return <div>Hello</div>;
 }
