@@ -2,7 +2,7 @@
 import React, { useContext, createContext, useState, useEffect } from "react";
 import OpenAI from "openai";
 import type { IMessage, IOptions, IRole } from "~/types/util";
-import { useQuestion } from "./Question";
+import { useQuestion } from "./useQuestion";
 
 function useChat() {
   const [messages, editMessages] = useState<IMessage[]>([

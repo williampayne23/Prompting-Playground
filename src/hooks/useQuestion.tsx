@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useDialog } from "./Modals";
+import { useDialog } from "./useModals";
 
 export function useQuestion() {
   const dialog = useDialog();
