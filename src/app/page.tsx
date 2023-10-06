@@ -14,7 +14,7 @@ export default function HomePage() {
           </div>
           <ButtonRow />
         </div>
-        <div className="w-[30%]">
+        <div className="w-[20%]">
           <Options />
         </div>
       </div>
