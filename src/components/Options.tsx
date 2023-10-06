@@ -134,7 +134,10 @@ function StopSequences() {
     <div className="flex flex-col p-4">
       <span>Stop Sequences</span>
       <span className="py-0.5 text-xs font-extralight">Enter sequence and press tab</span>
-      <div className="flex w-full cursor-text flex-wrap rounded-md border p-1" onClick={focusInput}>
+      <div
+        className="flex w-full cursor-text flex-wrap rounded-md border p-1 focus-within:border-teal-600"
+        onClick={focusInput}
+      >
         {chatContext.options.stop?.map((o, i) => (
           <div className="mr-1 mt-1 flex h-5 justify-center rounded-sm bg-neutral-200 text-center text-[10px]" key={i}>
             <span className="m-auto px-1">{o}</span>
