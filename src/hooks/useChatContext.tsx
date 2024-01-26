@@ -30,7 +30,17 @@ function useChat() {
     stream: true,
   });
 
-  function editOption<T extends keyof IOptions>(key: T, value: IOptions[T]) {
+  function editOption<T extends keyof IOptions>(key: T, value: IOptions[T] | ((old: IOptions[T]) => IOptions[T])) {
+    if (typeof value == "function") {
+      editOptions((opts) => {
+        return {
+          ...opts,
+          [key]: value(opts[key]) as IOptions[T],
+        };
+      });
+      return;
+    }
+
     editOptions((ops) => {
       return { ...ops, [key]: value };
     });
@@ -49,8 +59,7 @@ function useChat() {
       user: "assistant",
       assistant: "user",
     };
-    const nextRole: IRole =
-      role == undefined ? ("system" as const) : nextRoleMap[role];
+    const nextRole: IRole = role == undefined ? ("system" as const) : nextRoleMap[role];
     const message: IMessage = {
       role: nextRole,
       content: "",
@@ -107,9 +116,7 @@ function useChat() {
       messages,
     });
 
-    function updateLastMessage(
-      delta: OpenAI.Chat.Completions.ChatCompletionChunk.Choice.Delta,
-    ) {
+    function updateLastMessage(delta: OpenAI.Chat.Completions.ChatCompletionChunk.Choice.Delta) {
       editMessages((m) => {
         const newM = [...m];
         const lastMessage = newM[m.length - 1];
@@ -143,7 +150,7 @@ function useChat() {
   };
 }
 
-type IChatContext = ReturnType<typeof useChat>;
+export type IChatContext = ReturnType<typeof useChat>;
 
 const ChatContext = createContext<IChatContext | undefined>(undefined);
 
@@ -157,7 +164,5 @@ export function useChatContext() {
 
 export function ChatProvider({ children }: { children: React.ReactNode }) {
   const context = useChat();
-  return (
-    <ChatContext.Provider value={context}>{children}</ChatContext.Provider>
-  );
+  return <ChatContext.Provider value={context}>{children}</ChatContext.Provider>;
 }

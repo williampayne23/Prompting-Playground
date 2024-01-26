@@ -1,3 +1,4 @@
+"use client";
 import { useChatContext } from "~/hooks/useChatContext";
 import { type IOptions, type IChatModel } from "~/types/util";
 import { SearchableList } from "./SearchableList";
@@ -10,10 +11,11 @@ type KeysOfValue<T, TCondition> = Required<{
 
 type IOptionNumberKeys = KeysOfValue<IOptions, number>;
 
-export default function Options() {
+export default function Options({ showFunctionDefs }: { showFunctionDefs: () => void }) {
   return (
     <div className="flex h-full flex-col text-sm font-light">
       <ModelSelect />
+      <button onClick={showFunctionDefs}>Add Functions</button>
       <OptionSlider property="temperature" max={2} min={0} step={0.01} deflt={1} />
       <OptionSlider property="max_tokens" name="Maximum length" max={1638} min={1} step={1} deflt={256} />
       <StopSequences />
